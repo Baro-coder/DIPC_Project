@@ -8,24 +8,20 @@ import sys
 import socket
 import xmlrpc.client
 
-
 # ************************************************
 # ****************** GLOBALS *********************
 # TCP Server address
 HOST = "127.0.0.1"
-PORT = 5005
+PORT = 5003
 
 # Consts
-BUFFER_SIZE = 512
+BUFFER_SIZE = 4096
 FORMAT = 'utf-8'
-RESP_MSG = 'Forwarded'.encode(FORMAT)
+RESP_MSG = 'Forwarded'.encode('utf-8')
 
 # *************************************************
 # ***************** MAIN DRIVE ********************
 def main():
-    # Redirect STDERR to file
-    sys.stderr = open('/var/log/ppr_p3_py.err.log', 'w')
-
     # XML-RPC Client
     xml_rpc_client = xmlrpc.client.ServerProxy('http://localhost:5004')
 
@@ -50,15 +46,15 @@ def main():
                 # If there is no data
                 if not data:
                     break
-
+                
                 # Decode data
                 data = data.decode(FORMAT)
-                
+
                 # Write received bytes count to STDERR
-                print(len(data), file=sys.stderr)
+                print("%d" %(len(data)), file=sys.stderr)
 
                 # Forward to XML-RPC Java Server
-                xml_rpc_client.Server.store(data)
+                xml_rpc_client.Server.deliver(data)
                 
                 # Send response
                 conn.sendall(RESP_MSG)

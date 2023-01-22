@@ -10,7 +10,7 @@ use SOAP::Lite;
 
 # ************************************************
 # ****************** GLOBALS *********************
-my $BUFFERSIZE = 512;
+my $BUFFERSIZE = 4096;
 
 # *** SOAP CONSTS ***
 my $endpoint = 'http://127.0.0.1/soap/php/p2.php';
@@ -41,6 +41,7 @@ while(1){
 		my $response = $client->call(SOAP::Data->name($method)->attr({'xmlns' => $soapaction}), @params);
 
 		if($response->fault){
+			print("Error: ".$response->faultstring);
 			die "Error: ".$response->faultstring;
 		}
 	} else { 

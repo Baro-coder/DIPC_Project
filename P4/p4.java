@@ -1,24 +1,27 @@
 import org.apache.xmlrpc.*;
 
 public class p4 {
-	private static int port = 5004;
-	
-	// udostepniana metoda ---------------------------------------------
-	public int store(String str) {
-		System.out.println(str);
-        return 0;
+	private static int PORT = 5004;
+	private static int CODE_SUCCESS = 0;
+
+    // Shared method: deliver()
+	public int deliver(String data) {
+        // forward received String STR to STDOUT
+		System.out.print(data);        
+		return p4.CODE_SUCCESS;
 	}
 
 	public static void main (String [] args) {
 		try {
-            System.out.println("Attempting to start server...");
+            System.err.println("Attempting to start server...");
 
-			WebServer server = new WebServer( p4.port );
+            // Server Register
+			WebServer server = new WebServer( p4.PORT );
 			server.addHandler( "Server", new p4() );
             server.start();
 
-            System.out.println("Server started successfully.");
-            System.out.println("Accepting requests.\n");
+            System.err.println("Server started successfully.");
+            System.err.println("Accepting requests.\n");
 
 		}catch (Exception exception) {
 			System.err.println( "Server: " + exception );

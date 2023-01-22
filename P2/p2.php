@@ -7,10 +7,10 @@
 		class PPRSrv {
 			public function simpleService( $str ){
 				// Redirect STDERR to file
-				fclose(STDERR);
-				$STDERR = fopen('/var/log/ppr_p2_php.err.log', 'w');
+				fclose($STDERR);
+				$STDERR = fopen('/home/student/PPR_Project/P2/ppr_p2_php.err.log', 'w');
 				// Write received bytes count into STDERR
-				fwrite($STDERR, strlen($str)); 
+				fwrite($STDERR, $str."\n");
 
 				// TCP Server Address
 				$host = '127.0.0.1';
