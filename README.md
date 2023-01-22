@@ -8,6 +8,8 @@
 
 Aim of this project is to design and implement 4 processes with communication in order to transfer the data.
 
+Project was developed with OS Linux (Debian distro) with preconfigured *Apache2* and *nginx*.
+
 ---
 
 ## Communication Mechanisms
