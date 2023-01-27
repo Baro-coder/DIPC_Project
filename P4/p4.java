@@ -4,10 +4,13 @@ public class p4 {
 	private static int PORT = 5004;
 	private static int CODE_SUCCESS = 0;
 
-    // Shared method: deliver()
-	public int deliver(String data) {
-        // forward received String STR to STDOUT
-		System.out.print(data);        
+	public int deliver(byte[] data) {
+		// Conver bytes array to String
+		String new_data = new String(data);
+
+		// forward decoded data to STDOUT
+		System.out.print(new_data);
+
 		return p4.CODE_SUCCESS;
 	}
 

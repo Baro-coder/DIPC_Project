@@ -7,6 +7,7 @@
 import sys
 import socket
 import xmlrpc.client
+from time import sleep
 
 # ************************************************
 # ****************** GLOBALS *********************
@@ -18,6 +19,8 @@ PORT = 5003
 BUFFER_SIZE = 4096
 FORMAT = 'utf-8'
 RESP_MSG = 'Forwarded'.encode('utf-8')
+CONN_ERR_MAX = 15
+CONN_ERR_DELAY = 2
 
 # *************************************************
 # ***************** MAIN DRIVE ********************
@@ -41,6 +44,8 @@ def main():
         with conn:
             # Session
             while True:
+                conn_err_counter = 0
+
                 # Receive data
                 data = conn.recv(BUFFER_SIZE)
                 # If there is no data
@@ -48,14 +53,26 @@ def main():
                     break
                 
                 # Decode data
-                data = data.decode(FORMAT)
+                # data = data.decode(FORMAT)
 
                 # Write received bytes count to STDERR
                 print("%d" %(len(data)), file=sys.stderr)
 
                 # Forward to XML-RPC Java Server
-                xml_rpc_client.Server.deliver(data)
-                
+                while True:
+                    try:
+                        if conn_err_counter == CONN_ERR_MAX:
+                            raise
+
+                        xml_rpc_client.Server.deliver(data)
+                        break
+                    except KeyboardInterrupt:
+                        raise
+                    except ConnectionRefusedError as e:
+                        conn_err_counter = conn_err_counter + 1
+                        print("XML-RPC Server: Connection refused! Attempt %d of %d ..." %(conn_err_counter, CONN_ERR_MAX, ))
+                        sleep(CONN_ERR_DELAY)
+
                 # Send response
                 conn.sendall(RESP_MSG)
 

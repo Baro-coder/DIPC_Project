@@ -6,16 +6,14 @@
 	} else { 
 		class PPRSrv {
 			public function simpleService( $str ){
-				// Redirect STDERR to file
-				fclose($STDERR);
-				$STDERR = fopen('/home/student/PPR_Project/P2/ppr_p2_php.err.log', 'w');
-				// Write received bytes count into STDERR
-				fwrite($STDERR, $str."\n");
-
 				// TCP Server Address
 				$host = '127.0.0.1';
 				$port = 5003;
-				
+
+				// input data length [B] > `stderr`
+				$stderr = fopen('php://stderr', 'w');
+				fwrite($stderr, strlen($str)."\n");
+
 				// Socket create
                 $socket = socket_create(AF_INET, SOCK_STREAM, 0);
 				
@@ -37,15 +35,15 @@
 				// Socket close
                 socket_close($socket);
 				
-				// Return response
-				return "Response: ".$str;
+				// Return response / input length [B]
+				return strlen($str);
 			}
 		}
 		
+		
+
 		$opt = array( 'uri' => 'http://127.0.0.1/soap/php/p2.php' );
 		$srv = new SoapServer( NULL, $opt );
 		$srv->setClass('PPRSrv');
 		$srv->handle();
 	}
-?>
-

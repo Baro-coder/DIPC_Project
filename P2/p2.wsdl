@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://127.0.0.1/PPR/Srv" xmlns:tns1="http://127.0.0.1/PPR/Srv" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:impl="http://127.0.0.1/PPR/Srv">
+<wsdl:definitions targetNamespace="http://192.168.0.226/PPR/Srv" xmlns:tns1="http://192.168.0.226/PPR/Srv" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:impl="http://192.168.0.226/PPR/Srv">
 
 	<wsdl:message name="simpleServiceRequest">
 		<wsdl:part name="str" type="xsd:string">
@@ -39,7 +39,7 @@
 
 	<wsdl:service name="PPRSrvHandlerService">
 		<wsdl:port binding="impl:PPRSrvSoapBinding" name="PPRSrv">
-			<wsdlsoap:address location="http://127.0.0.1/soap/php/p2.php" />
+			<wsdlsoap:address location="http://192.168.0.226/soap/php/p2.php" />
 		</wsdl:port>
 	</wsdl:service>
 
